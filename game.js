@@ -54,6 +54,9 @@ const state = {
 	confettiBurstInterval: 0.4,
 	hideCactus: false,
 	prevCarX: 0,
+	hitFlashTimer: 0,
+	hitFlashCount: 0,
+	hitFlashActive: false,
 	car: {
 		x: 0,
 		y: 0,
@@ -148,6 +151,9 @@ const resetGame = () => {
 	state.hideCactus = hideCactusToggle.checked;
 	state.car.x = rect.width / 2 - state.car.width / 2;
 	state.prevCarX = state.car.x;
+	state.hitFlashTimer = 0;
+	state.hitFlashCount = 0;
+	state.hitFlashActive = false;
 	state.car.y = rect.height - state.car.height - 20;
 	state.mouseX = rect.width / 2;
 	overlayEl.hidden = true;
@@ -178,6 +184,22 @@ const updateHud = () => {
 	scoreEl.textContent = String(state.scoreMeters);
 	livesEl.textContent = String(state.lives);
 	highScoreEl.textContent = String(state.highScore);
+};
+
+const updateHitFlash = (dt) => {
+	if (!state.hitFlashActive) {
+		return;
+	}
+	state.hitFlashTimer -= dt;
+	if (state.hitFlashTimer <= 0) {
+		state.hitFlashCount += 1;
+		if (state.hitFlashCount >= 6) {
+			state.hitFlashActive = false;
+			state.hitFlashTimer = 0;
+			return;
+		}
+		state.hitFlashTimer = 0.08;
+	}
 };
 
 const spawnConfetti = (rect) => {
@@ -467,6 +489,7 @@ const update = (dt) => {
 	state.distance += state.speed * dt;
 	state.scoreMeters = Math.floor(state.distance / 20);
 	updateHud();
+	updateHitFlash(dt);
 
 	state.speed = clamp(
 		state.baseSpeed + state.distance * 0.03,
@@ -515,6 +538,9 @@ const update = (dt) => {
 		if (rectsOverlap(state.car, state.cactus[i])) {
 			state.cactus.splice(i, 1);
 			state.lives -= 1;
+			state.hitFlashActive = true;
+			state.hitFlashTimer = 0.08;
+			state.hitFlashCount = 0;
 			updateHud();
 			if (state.lives <= 0) {
 				endGame();
@@ -544,6 +570,11 @@ const drawBackground = (rect) => {
 };
 
 const drawCar = () => {
+	const flashing = state.hitFlashActive && state.hitFlashCount % 2 === 1;
+	ctx.save();
+	if (flashing) {
+		ctx.globalAlpha = 0.35;
+	}
 	if (images.car) {
 		ctx.drawImage(
 			images.car,
@@ -552,11 +583,13 @@ const drawCar = () => {
 			state.car.width,
 			state.car.height
 		);
+		ctx.restore();
 		return;
 	}
 
 	ctx.fillStyle = "#d95b43";
 	ctx.fillRect(state.car.x, state.car.y, state.car.width, state.car.height);
+	ctx.restore();
 };
 
 const drawCactus = () => {
