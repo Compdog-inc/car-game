@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Top Down Runner</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div class="game-shell">
+			<div class="hud">
+				<div class="hud__item">
+					Score: <span id="score">0</span>
+					<span class="hud__divider">|</span>
+					High: <span id="highScore">0</span>
+				</div>
+				<div class="hud__item">Lives: <span id="lives">3</span></div>
+				<label class="hud__toggle">
+					<input type="checkbox" id="selfDrive" />
+					Self-driving
+				</label>
+				<label class="hud__toggle">
+					<input type="checkbox" id="hideCactus" />
+					Hide cactus
+				</label>
+			</div>
+			<canvas id="game"></canvas>
+			<canvas id="confetti"></canvas>
+			<div class="overlay" id="overlay" hidden>
+				<div class="overlay__card">
+					<h1 id="overlayTitle">Game Over</h1>
+					<p class="overlay__high">High score: <span id="highScoreOverlay">0</span></p>
+					<p>Your score: <span id="finalScore">0</span></p>
+					<p class="overlay__celebrate" id="celebrate" hidden>
+						NEW HIGH SCORE! PARTY MODE!
+					</p>
+					<button id="restart">Restart</button>
+				</div>
+			</div>
+		</div>
+		<script src="game.js"></script>
+	</body>
+</html>

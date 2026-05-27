@@ -1,0 +1,168 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+		"Lucida Sans", Arial, sans-serif;
+	background: radial-gradient(circle at top, #2f3b1f 0%, #12160c 60%);
+	color: #f5f2e9;
+	min-height: 100vh;
+	display: grid;
+	place-items: center;
+}
+
+.game-shell {
+	position: relative;
+	width: min(90vw, 520px);
+	aspect-ratio: 9 / 16;
+	border: 4px solid #d4c9a8;
+	border-radius: 18px;
+	overflow: hidden;
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+}
+
+#game {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+
+#confetti {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 2;
+}
+
+.hud {
+	position: absolute;
+	top: 12px;
+	left: 12px;
+	right: 12px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	z-index: 2;
+	font-weight: 700;
+	letter-spacing: 0.5px;
+	text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.hud__item {
+	background: rgba(0, 0, 0, 0.35);
+	padding: 6px 10px;
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hud__divider {
+	margin: 0 6px;
+	opacity: 0.5;
+}
+
+.hud__toggle {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	background: rgba(0, 0, 0, 0.35);
+	padding: 6px 10px;
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	font-size: 12px;
+}
+
+.hud__toggle input {
+	accent-color: #e7c256;
+}
+
+.overlay {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	background: rgba(10, 12, 6, 0.75);
+	z-index: 3;
+}
+
+.overlay.celebrate {
+	background: radial-gradient(
+		circle at top,
+		rgba(255, 241, 168, 0.65) 0%,
+		rgba(255, 154, 139, 0.5) 40%,
+		rgba(143, 108, 255, 0.55) 100%
+	);
+	animation: celebratePulse 1.2s ease-in-out infinite;
+}
+
+@keyframes celebratePulse {
+	0% {
+		filter: saturate(1);
+	}
+	50% {
+		filter: saturate(1.4);
+	}
+	100% {
+		filter: saturate(1);
+	}
+}
+
+.overlay[hidden] {
+	display: none;
+}
+
+.overlay__card {
+	background: #1c2312;
+	padding: 24px 28px;
+	border-radius: 16px;
+	border: 2px solid #d4c9a8;
+	text-align: center;
+	min-width: 220px;
+}
+
+.overlay.celebrate .overlay__card {
+	background: rgba(12, 14, 20, 0.8);
+	border-color: #fff1a8;
+	box-shadow: 0 0 25px rgba(255, 241, 168, 0.6);
+}
+
+.overlay__card h1 {
+	font-size: 28px;
+	margin-bottom: 8px;
+}
+
+.overlay__card p {
+	margin-bottom: 16px;
+}
+
+.overlay__high {
+	font-size: 14px;
+	opacity: 0.85;
+}
+
+.overlay__celebrate {
+	font-weight: 800;
+	letter-spacing: 1px;
+	color: #fff1a8;
+	text-shadow: 0 0 12px rgba(255, 241, 168, 0.8);
+}
+
+.overlay__card button {
+	appearance: none;
+	border: none;
+	padding: 10px 18px;
+	border-radius: 10px;
+	background: #e7c256;
+	font-weight: 700;
+	cursor: pointer;
+	color: #1b1b1b;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
+}
+
+.overlay__card button:hover {
+	background: #f0d073;
+}
